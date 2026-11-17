@@ -2,3 +2,4 @@ asm-differ
 src/
 build/
 __pycache__/
+*.exe

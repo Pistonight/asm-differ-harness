@@ -32,6 +32,12 @@ def main() -> None:
         # replace this process, so diff.py runs exactly as if invoked directly
         # (same pid, signals and job control)
         os.execv(sys.executable, cmd)
+        # safety
+        return # pyright: ignore[reportUnreachable]
+    if sys.platform == "win32":
+        # Let diff.py find the less.exe that sits next to this script, ahead of
+        # any other less on PATH (e.g. Git for Windows' MSYS less)
+        os.environ["PATH"] = ROOT + os.pathsep + os.environ.get("PATH", "")
     # Windows has no real exec, so run it as a child. Ctrl-C reaches diff.py
     # through the console, so ignore it here and keep waiting for diff.py
     # to finish cleaning up.
